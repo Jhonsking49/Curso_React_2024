@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./components/utils/ProtectedRoute";
+import { AuthProvider } from "./context/useAuthProduct";
+import EditProductPage from "./pages/EditProductPage";
+import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import PaymentPage from "./pages/PaymentPage";
+import RootPage from "./pages/RootPage";
 function App() {
-  const [count, setCount] = useState(0)
-
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootPage />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          element: <ProtectedRoute redirectPath="/login" />,
+          children: [
+            {
+              index: true,
+              element: <HomePage />,
+            },
+            { path: "/productos/:idproduct", element: <EditProductPage /> },
+            { path: "/payment", element: <PaymentPage /> },
+          ],
+        },
+        { path: "/login", element: <LoginPage /> },
+      ],
+    },
+  ]);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <AuthProvider>
+      <RouterProvider router={router} />;
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
