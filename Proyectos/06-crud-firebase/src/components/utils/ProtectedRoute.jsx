@@ -1,8 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthProducts } from "../../context/useAuthProducts";
+import { useAuthProduct } from "../../context/useAuthProducts";
 
-const ProtectedRoute = ({isActive,redirectPath}) => {
-    const { userFirebase} = useAuthProducts();
+const ProtectedRoute = ({redirectPath}) => {
+    const { userFirebase } = useAuthProduct();
+    const isActive = !!userFirebase ;
+
     if(!isActive){
         return <Navigate to={redirectPath} replace />;
     }

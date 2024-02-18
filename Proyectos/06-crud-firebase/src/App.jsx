@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
-import { AuthProvider } from "./context/useAuthProduct";
+import { AuthProvider } from "./context/useAuthProducts";
 import EditProductPage from "./pages/EditProductPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";

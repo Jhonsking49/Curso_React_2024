@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuthProducts } from "../context/useAuthProducts";
-import { useProductosContext } from "../context/Otra_forma_contexto/ProductosContext";
+import { useAuthProduct } from "../context/useAuthProducts";
 import { singWithGoogle } from "../firebase/productosApi";
 
 const LoginPage = () => {
   const [error, setError] = useState();
   const navigate = useNavigate();
-  // const { signInFirebase } = useProductosContext(); <--- Usando el contexto de la primera forma
-  const { signInFirebase } = useProductosContext(); // <--- Usando el contexto de la Otra_forma_contexto
+  const { signInFirebase } = useAuthProduct();
   const handleSingIn = async () => {
     await singWithGoogle(signInFirebase, setError, navigate);
   };
-
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-gray-200 to-gray-500">
       <div className="flex items-center justify-between mx-10">

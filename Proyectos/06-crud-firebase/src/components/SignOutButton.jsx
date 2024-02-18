@@ -1,4 +1,4 @@
-import { useAuthProduct } from "../context/authContextProduct";
+import { useAuthProduct } from "../context/useAuthProducts";
 import { cerrarSesion } from "../firebase/productosApi";
 
 const SignOutButton = () => {
