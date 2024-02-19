@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-export default function useDataApi(apiEndpoint) {
-    const [data, setdata] = useState(null);
-    const [loading, setloading] = useState(true);
-    const [error, seterror] = useState(false);
+
+export default function useDataApi(apiEndPoint) {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchData(apiEndpoint);
+                const response = await fetchData(apiEndPoint);
                 if (!response.ok) throw new Error("Error fetching data");
                 const result = await response.json();
-                setdata(result);
+                setData(result);
             } catch (error) {
-                seterror(error);
+                setError(error);
             } finally {
-                setloading(false);
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, [apiEndpoint]);
-    
+    }, [apiEndPoint]);
+
     return { data, loading, error };
 }
