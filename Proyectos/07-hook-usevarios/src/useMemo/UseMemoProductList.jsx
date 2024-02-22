@@ -1,58 +1,62 @@
 import { useMemo, useState } from "react";
 
 /**
- * Usememo se utiliza para declarar una variable que necesita mucho calculo y no queremos que se vuelva a ejecutar o crear en cada reenderizado
+ *
+ * useMemo se utiliza para guardar una variable que necesita
+ * mucho cálculo y que no queremos que se vuelva a ejecutar
+ * o crear en cada re-renderizado.
+ *
  */
 const initialState = [
-    {
-        name: "producto1",
-        price: 10,
-        stock:5
-    },
+    { name: "producto1", price: 10, stock: 5 },
     {
         name: "producto2",
-        price: 20,
-        stock:10
+        price: 5,
+        stock: 5,
     },
     {
         name: "producto3",
-        price: 30,
-        stock:15
-    }
-]
-const useMemoProductList = () => {
-    const [products, setproducts] = useState(initialState);
-    const [calcularConst, setcalcularConst] = useState(0);
-    // FUNCION PESADA
-    const calcularPrecioTotal = (product) => {
+        price: 2,
+        stock: 5,
+    },
+    {
+        name: "producto4",
+        price: 10,
+        stock: 5,
+    },
+];
+const UseMemoProductList = () => {
+    const [products, setProducts] = useState(initialState);
+    const [calcularCount, setCalcularCount] = useState(0);
+    // función pesada
+    const CalcularPrecioTotal = (product) => {
         let suma = 0;
-        for (let i = 0; i < 1000000; i++){
-            suma += Math.random();
+        for (let i = 0; i < 1000000; i++) {
+        suma += Math.random();
         }
         return product.price * product.stock + suma;
-    }
+    };
 
     const memorizeTotales = useMemo(() => {
-        setcalcularConst(prev=>prev+1)
-        const totalPrecios = products.map(product => {
-            return calcularPrecioTotal(product)
-        })
+        setCalcularCount((prev) => prev + 1);
+        const totalPrecios = products.map((product) => {
+        return CalcularPrecioTotal(product);
+        });
         return totalPrecios;
-    }, [products])
-
+    }, [products]);
     return (
+        <div >
+            <h1>Número de recálculos realizados {calcularCount} </h1>
+            <hr />
         <div>
-            <h1>Numero de calculos realizados {calcularConst}</h1>
-            <div>
-                {products.map((product, index) => {
-                    <p key={index}>
-                        <h2> precio total: {memorizeTotales[index]} </h2>
-                    </p>
-                })}
+            {products.map((product, index) => (
+            <div key={index}>
+                <h2>Precio total: {memorizeTotales[index]} </h2>
             </div>
+            ))}
+        </div>
         </div>
     );
+};
 
-}
-
-export default useMemoProductList
+export default UseMemoProductList;

@@ -6,17 +6,21 @@
 
 import { useState } from "react";
 
-const uselocalstorage = (key, initialValue) => {
-    const [saveValue, setSaveValue] = useState(() => {
+const useLocalStorage = (key, initialValue) => {
+    const [saveValueStorage, setSaveValueStorage] = useState(() => {
+        // Hay que comprobar si la key ya está en el localStorage
         const valorKeyLocalStorage = window.localStorage.getItem(key);
-        return valorKeyLocalStorage? JSON.parse(valorKeyLocalStorage) : initialValue;
+        return valorKeyLocalStorage
+        ? JSON.parse(valorKeyLocalStorage)
+        : initialValue;
     });
 
-    const setValueLocalStorage = (value) => {
-        setSaveValue(value);
-        window.localStorage.setItem(key, JSON.stringify(value));
+    const setValueInLocalStorage = (value) => {
+        setSaveValueStorage(value); // <-- lo almaceno en el estado y ahora lo almaceno en el LOCALStorage
+        window.localStorage.setItem(key, JSON.stringify(value)); 
     };
-    return [saveValue, setValueLocalStorage];
-}
 
-export default uselocalstorage;s
+    return [saveValueStorage, setValueInLocalStorage];
+};
+
+export default useLocalStorage;
